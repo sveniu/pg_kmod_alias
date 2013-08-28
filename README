@@ -1,0 +1,26 @@
+Linux kmod alias lookup function for PostgreSQL: Look up Linux kernel module
+names by module alias string.
+
+o Compile with 'make'. See the included Makefile
+
+o Copy kmod_alias.so to `pg_config --pkglibdir`
+
+o Create the function:
+
+  CREATE FUNCTION kmod_alias_lookup(text) RETURNS SETOF text
+    AS 'kmod_alias', 'kmod_alias_lookup'
+    LANGUAGE C
+    IMMUTABLE
+    STRICT;
+
+o Try a query:
+
+  SELECT kmod_alias_lookup('pci:v00008086d00002653sv*sd*bc01sc01i*');
+   kmod_alias_lookup
+  -------------------
+   ahci
+   ata_piix
+   ata_generic
+   ata_generic
+  (4 rows)
+
